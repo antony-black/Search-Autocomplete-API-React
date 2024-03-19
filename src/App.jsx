@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import User from "./components/User";
 import UserInfo from "./components/UserInfo";
+import Refresh from "./components/Refresh";
 import "./index.scss";
 
 export default function App() {
@@ -51,6 +52,13 @@ export default function App() {
     setSelectedUser(user);
   }
 
+  const handleRefresh = () => {
+    setFilteredUsers([]);
+    setSearchValue('')
+    setShowUserInfo(false);
+    setSelectedUser(null);
+  }
+
   useEffect(() => {
     fetchUsersData();
   },[])
@@ -69,6 +77,7 @@ export default function App() {
      value={searchValue}
      onChange={handleInputChange}
      />
+     <Refresh handleRefresh={handleRefresh}/>
     </div>
     <div className="user">
       {

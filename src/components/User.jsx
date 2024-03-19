@@ -1,6 +1,4 @@
 export default function User({handleNameClick, users}) {
-  // const [firstName, lastName, username, age, phone, email] = userData;
-  
   return(
     <div className="user-container">
       <ul className="users-name">
