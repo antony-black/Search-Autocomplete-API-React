@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import User from "./components/User";
+import UserInfo from "./components/UserInfo";
 import "./index.scss";
 
 export default function App() {
@@ -8,6 +9,8 @@ export default function App() {
   const [userData, setUserData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [showUserInfo, setShowUserInfo] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
 
   const fetchUsersData = async () => {
@@ -16,10 +19,8 @@ export default function App() {
       const response = await fetch(`https://dummyjson.com/users`);
       const data = await response.json();
 
-      console.log(data.users.map(user => user.firstName));
-
       if (data?.users?.length > 0) {
-        setUserData(data.users.map(user => user.firstName));
+        setUserData(data.users);
         setLoading(false);
       }
     } catch(e){
@@ -34,7 +35,7 @@ export default function App() {
 
     if (value !== '') {
       const users = userData.length 
-          ? userData.filter(name => name.toLowerCase().includes(value))
+          ? userData.filter(user => user.firstName.toLowerCase().includes(value))
           : [];
 
       setFilteredUsers(users);
@@ -43,9 +44,11 @@ export default function App() {
     }
   }
 
-  const handleNameClick = (e) => {
+  const handleNameClick = (e, user) => {
     setFilteredUsers([]);
     setSearchValue(e.target.innerText)
+    setShowUserInfo(true);
+    setSelectedUser(user);
   }
 
   useEffect(() => {
@@ -68,7 +71,11 @@ export default function App() {
      />
     </div>
     <div className="user">
-      {userData && <User users={filteredUsers} handleNameClick={handleNameClick}/>}
+      {
+        showUserInfo 
+            ? <UserInfo user={selectedUser}/>
+            : <User users={filteredUsers} handleNameClick={handleNameClick}/>
+      }
     </div>
   </div>;
 }

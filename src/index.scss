@@ -17,3 +17,18 @@ body {
     margin-left: 30px;
   }
 }
+
+.users-name {
+  list-style: none;
+  & li {
+    cursor: pointer;
+  }
+
+  & li + li {
+    margin-top: 10px;
+  }
+}
+
+.user-container {
+  text-align: center;
+}
